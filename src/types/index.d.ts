@@ -55,7 +55,7 @@ export interface Feedback{
   id: string;
   message: string;
   fullName: string;
-  dueDate: Date;
+  createDate: Date;
 }
 
 export interface JobCategory {

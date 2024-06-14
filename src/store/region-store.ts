@@ -54,3 +54,5 @@ const useRegionStore = create<RegionState>((set) => ({
     );
   },
 }));
+
+export default useRegionStore;

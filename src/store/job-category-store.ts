@@ -55,3 +55,5 @@ const useJobCategoryStore = create<JobCategoryState>((set) => ({
     );
   },
 }));
+
+export default useJobCategoryStore;

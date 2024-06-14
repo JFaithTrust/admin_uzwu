@@ -1,5 +1,5 @@
 import axios from "@/store/axios";
-import {District, FAQ, Feedback, JobCategory, Region} from "@/types";
+import {District, FAQ, Feedback, JobCategory, Region, Worker} from "@/types";
 
 // District
 export async function getDistricts() {
@@ -245,7 +245,15 @@ export async function deleteJobCategory(id: string) {
 
 // Worker
 export async function getWorkers() {
-  const {data} = await axios.get<Worker[]>("/api/Worker/GetAllForAdmin");
+  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')!)
+    : null;
+
+  const { data} = await axios.get<Worker[]>("/api/Worker/GetAllForAdmin", {
+    headers: {
+      Authorization: `Bearer ${initialUser.token}`,
+    },
+  });
   return data;
 }
 
@@ -304,6 +312,7 @@ export async function updateWorkerStatus(id: string, status: boolean){
       Authorization: `Bearer ${initialUser.token}`,
     },
   })
+  return data;
 }
 
 export async function deleteWorker(id: string) {

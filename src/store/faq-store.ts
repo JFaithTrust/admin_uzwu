@@ -53,3 +53,4 @@ const useFaqStore = create<FaqState>((set) => ({
   },
 }));
 
+export default useFaqStore;

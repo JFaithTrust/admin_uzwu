@@ -11,10 +11,7 @@ interface DistrictState{
   createDistrict: (district: {
     name: string;
   }) => Promise<void>;
-  updateDistrict: (district: {
-    id: string;
-    name: string;
-  }) => Promise<void>;
+  updateDistrict: (district: District) => Promise<void>;
   deleteDistrict: (id: string) => Promise<void>;
 }
 
@@ -64,3 +61,5 @@ const useDistrictStore = create<DistrictState>((set) => ({
     );
   },
 }))
+
+export default useDistrictStore;
