@@ -11,17 +11,28 @@ import {Button} from "@/components/ui/button";
 import {toast} from "sonner";
 import {Input} from "@/components/ui/input";
 import useFeedbackStore from "@/store/feedback-store";
+import {ArrowLeft, CalendarIcon} from "lucide-react";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
+import {cn} from "@/lib/utils";
+import {format} from "date-fns";
+import {Calendar} from "@/components/ui/calendar";
+import {useRouter} from "next/navigation";
 
 const EditFeedbackPage = ({ params }: { params: { editId: string } }) => {
-  const { updateFeedback, feedbacks } = useFeedbackStore();
+  const { updateFeedback, feedback, getFeedbackById } = useFeedbackStore();
+  const router = useRouter();
+
+  useEffect(() =>{
+    getFeedbackById(params.editId).then()
+  }, []);
 
   useEffect(() => {
-    const feedback = feedbacks.find((f) => f.id === params.editId);
     if(feedback){
       form.setValue("message", feedback.message);
       form.setValue("fullName", feedback.fullName);
+      form.setValue("dueDate", feedback.dueDate);
     }
-  }, []);
+  }, [feedback]);
 
 
   const form = useForm<z.infer<typeof CreateFeedbackSchema>>({
@@ -33,7 +44,7 @@ const EditFeedbackPage = ({ params }: { params: { editId: string } }) => {
       id: params.editId,
       message: values.message,
       fullName: values.fullName,
-      createDate: new Date(),
+      dueDate: values.dueDate,
     }
     console.log(editedFeedback)
     updateFeedback(editedFeedback).then(() => {
@@ -48,20 +59,65 @@ const EditFeedbackPage = ({ params }: { params: { editId: string } }) => {
     <div className={"w-full h-full px-3 pb-10 pr-64"}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <h1 className={"text-3xl font-bold mt-5"}>Tahrirlash</h1>
+          <div className={"flex gap-x-2 items-center mt-5"}>
+            <ArrowLeft onClick={router.back} className="h-6 w-6 cursor-pointer"/>
+            <h1 className={"text-3xl font-bold"}>Fikr-mulohazani tahrirlash</h1>
+          </div>
           <div className={"mt-10 grid gap-y-5"}>
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({field}) => (
-                <FormItem>
-                  <FormLabel>F.I.SH.</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Solijoniy Jahongir..." {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+            <div className={"flex justify-between gap-x-12 items-end"}>
+              <FormField
+                control={form.control}
+                name="fullName"
+                render={({field}) => (
+                  <FormItem className={"w-full"}>
+                    <FormLabel>F.I.SH.</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Solijoniy Jahongir..." {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="dueDate"
+                render={({field}) => (
+                  <FormItem className={"flex flex-col space-y-1"}>
+                    <FormLabel>Chiqish muddati</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50"/>
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          captionLayout="dropdown-buttons"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          fromYear={1960}
+                          toYear={2030}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage/>
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name="message"

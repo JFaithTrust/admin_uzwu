@@ -1,12 +1,12 @@
 import {FAQ} from "@/types";
 import {create} from "zustand";
-import { getFaqs, createFaq, updateFaq, deleteFaq } from "@/store/api";
+import {getFaqs, createFaq, updateFaq, deleteFaq, getFaqById} from "@/store/api";
 
 interface FaqState {
   faqs: FAQ[];
   faq: FAQ | null;
   getFaqs: () => Promise<void>;
-  // getFaqById: (id: string) => Promise<void>;
+  getFaqById: (id: string) => Promise<void>;
   createFaq: (faq: {question: string; answer: string}) => Promise<void>;
   updateFaq: (faq: FAQ) => Promise<void>;
   deleteFaq: (id: string) => Promise<void>;
@@ -21,12 +21,12 @@ const useFaqStore = create<FaqState>((set) => ({
       (state) => ({...state, faqs})
     );
   },
-  // getFaqById: async (id: string) => {
-  //   const faq = await getFaqById(id);
-  //   return set(
-  //     (state) => ({...state, faq})
-  //   );
-  // },
+  getFaqById: async (id: string) => {
+    const faq = await getFaqById(id);
+    return set(
+      (state) => ({...state, faq})
+    );
+  },
   createFaq: async (faq) => {
     const newFaq = await createFaq(faq);
     return set(

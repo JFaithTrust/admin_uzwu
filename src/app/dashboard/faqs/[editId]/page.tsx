@@ -10,17 +10,23 @@ import {Textarea} from "@/components/ui/textarea";
 import {Button} from "@/components/ui/button";
 import {toast} from "sonner";
 import useFaqStore from "@/store/faq-store";
+import {useRouter} from "next/navigation";
+import {ArrowLeft} from "lucide-react";
 
 const EditFaqPage = ({ params }: { params: { editId: string } }) => {
-  const { updateFaq, faqs } = useFaqStore();
+  const { updateFaq, faq, getFaqById } = useFaqStore();
+  const router = useRouter();
+
+  useEffect(() =>{
+    getFaqById(params.editId).then()
+  }, []);
 
   useEffect(() => {
-    const faq = faqs.find((f) => f.id === params.editId);
     if(faq){
       form.setValue("question", faq.question);
       form.setValue("answer", faq.answer);
     }
-  }, []);
+  }, [faq]);
 
 
   const form = useForm<z.infer<typeof CreateFaqSchema>>({
@@ -50,7 +56,10 @@ const EditFaqPage = ({ params }: { params: { editId: string } }) => {
     <div className={"w-full h-full px-3 pb-10 pr-64"}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <h1 className={"text-3xl font-bold mt-5"}>F.A.Q. tahrirlash</h1>
+          <div className={"flex gap-x-2 items-center mt-5"}>
+            <ArrowLeft onClick={router.back} className="h-6 w-6 cursor-pointer"/>
+            <h1 className={"text-3xl font-bold"}>F.A.Q. tahrirlash</h1>
+          </div>
           <div className={"mt-10 grid gap-y-5"}>
             <FormField
               control={form.control}

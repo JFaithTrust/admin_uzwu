@@ -1,6 +1,6 @@
 import { Worker } from "@/types"
 import { create } from "zustand";
-import { getWorkers, getWorkerById, createWorker, updateWorker, updateWorkerStatus, deleteWorker } from "@/store/api"
+import { getWorkers, getWorkerById, createWorker, updateWorker, activateWorkerStatus, deactivateWorkerStatus, deleteWorker } from "@/store/api"
 
 interface WorkerState{
   workers: Worker[],
@@ -8,19 +8,19 @@ interface WorkerState{
   getWorkers: () => Promise<void>,
   getWorkerById: (id: string) => Promise<void>,
   createWorker: (worker: {
-    title: string;
+    instagramLink: string | undefined;
     gender: number;
-    salary: number;
-    instagramLink?: string;
-    telegramLink?: string;
-    tgUsername: string;
+    telegramLink: string | undefined;
     workingTime: string;
-    workingSchedule: string;
+    title: string;
+    salary: number;
+    tgUserName: string;
     birthDate: Date;
-    deadline: Date;
+    workingSchedule: string;
     phoneNumber: string;
     districtId: string;
-    categoryId: string;
+    deadline: Date;
+    categoryId: string
   }) => Promise<void>,
   updateWorker: (worker: Worker) => Promise<void>,
   updateWorkerStatus: (id: string, status: boolean) => Promise<void>,
@@ -58,13 +58,23 @@ const useWorkerStore = create<WorkerState>((set) => ({
     );
   },
   updateWorkerStatus: async (id, status) => {
-    const updatedWorker = await updateWorkerStatus(id, status);
-    return set(
-      (state) => ({
-        ...state,
-        workers: state.workers.map((w) => w.id === updatedWorker.id ? updatedWorker : w)
-      })
-    );
+    if(status){
+      const updatedWorker = await deactivateWorkerStatus(id);
+      return set(
+        (state) => ({
+          ...state,
+          workers: state.workers.map((w) => w.id === updatedWorker.id ? updatedWorker : w)
+        })
+      );
+    }else{
+      const updatedWorker = await activateWorkerStatus(id);
+      return set(
+        (state) => ({
+          ...state,
+          workers: state.workers.map((w) => w.id === updatedWorker.id ? updatedWorker : w)
+        })
+      );
+    }
   },
   deleteWorker: async (id) => {
     await deleteWorker(id);

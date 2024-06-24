@@ -10,9 +10,12 @@ import {Textarea} from "@/components/ui/textarea";
 import {Button} from "@/components/ui/button";
 import {toast} from "sonner";
 import useFaqStore from "@/store/faq-store";
+import {ArrowLeft} from "lucide-react";
+import {useRouter} from "next/navigation";
 
 const CreateFaqPage = () => {
   const { createFaq } = useFaqStore();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof CreateFaqSchema>>({
     resolver: zodResolver(CreateFaqSchema),
@@ -36,7 +39,10 @@ const CreateFaqPage = () => {
     <div className={"w-full h-full px-3 pb-10 pr-64"}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <h1 className={"text-3xl font-bold mt-5"}>F.A.Q. yaratish</h1>
+          <div className={"flex gap-x-2 items-center mt-5"}>
+            <ArrowLeft onClick={router.back} className="h-6 w-6 cursor-pointer"/>
+            <h1 className={"text-3xl font-bold"}>F.A.Q. yaratish</h1>
+          </div>
           <div className={"mt-10 grid gap-y-5"}>
             <FormField
               control={form.control}

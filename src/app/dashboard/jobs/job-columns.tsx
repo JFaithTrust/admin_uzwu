@@ -1,24 +1,23 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import {ColumnDef} from "@tanstack/react-table";
+import {Job} from "@/types";
+import {Button} from "@/components/ui/button";
+import {ArrowUpDown, MoreHorizontal} from "lucide-react";
+import * as React from "react";
+import {formatNumber} from "@/lib/utils";
+import {Badge} from "@/components/ui/badge";
+import useWorkerStore from "@/store/worker-store";
+import {toast} from "sonner";
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import * as React from "react";
-import { Worker } from "@/types";
-import { formatNumber } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import {toast} from "sonner";
-import useWorkerStore from "@/store/worker-store";
+import useJobStore from "@/store/job-store";
 
-
-export const workerColumns: ColumnDef<Worker>[] = [
+export const jobColumns: ColumnDef<Job>[] = [
   {
     accessorKey: "title",
     header: ({ column }) => {
@@ -112,19 +111,18 @@ export const workerColumns: ColumnDef<Worker>[] = [
       </div>
     ),
   },
-
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const worker = row.original;
+      const job = row.original;
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const {deleteWorker, updateWorkerStatus} = useWorkerStore();
+      const {deleteJob, updateJobStatus} = useJobStore();
 
       const handleDelete = (id: string) => {
-        deleteWorker(id).then(
+        deleteJob(id).then(
           () => {
-            toast.success("Worker successfully deleted");
+            toast.success("Job successfully deleted");
           }
         ).catch(
           (error) => {
@@ -134,9 +132,9 @@ export const workerColumns: ColumnDef<Worker>[] = [
       }
 
       const handleChangeStatus = (id: string, status: boolean) => {
-        updateWorkerStatus(id, status).then(
+        updateJobStatus(id, status).then(
           () => {
-            toast.success("Worker status successfully updated");
+            toast.success("Job status successfully updated");
           }
         ).catch(
           (error) => {
@@ -161,24 +159,24 @@ export const workerColumns: ColumnDef<Worker>[] = [
             {/*  Copy payment ID*/}
             {/*</DropdownMenuItem>*/}
             <DropdownMenuSeparator />
-            <Link href={`/dashboard/workers/${worker.id}`}>
+            <Link href={`/dashboard/jobs/${job.id}`}>
               <DropdownMenuItem>
                 View
               </DropdownMenuItem>
             </Link>
-            <Link href={`/dashboard/workers/edit-worker/${worker.id}`}>
+            <Link href={`/dashboard/jobs/edit-job/${job.id}`}>
               <DropdownMenuItem>
                 Edit
               </DropdownMenuItem>
             </Link>
             <DropdownMenuItem
-              onClick={() => handleChangeStatus(worker.id, worker.status)}
+              onClick={() => handleChangeStatus(job.id, job.status)}
               className={"!text-orange-500"}
             >
-              {worker.status ? "Deactivate" : "Activate"}
+              {job.status ? "Deactivate" : "Activate"}
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => handleDelete(worker.id)}
+              onClick={() => handleDelete(job.id)}
               className={"!text-red-500"}
             >
               Delete
@@ -188,4 +186,4 @@ export const workerColumns: ColumnDef<Worker>[] = [
       );
     },
   },
-];
+]

@@ -1,6 +1,6 @@
 'use client'
 
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {CreateDistrictSchema} from "@/lib/validation";
@@ -10,9 +10,12 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import useDistrictStore from "@/store/district-store";
+import {useRouter} from "next/navigation";
+import {ArrowLeft} from "lucide-react";
 
 const EditDistrictPage = ({ params }: { params: { editId: string } }) => {
   const { updateDistrict, district, getDistrictById } = useDistrictStore();
+  const router = useRouter();
 
   useEffect(() =>{
     getDistrictById(params.editId).then()
@@ -48,7 +51,10 @@ const EditDistrictPage = ({ params }: { params: { editId: string } }) => {
     <div className={"w-full h-full px-3 pb-10 pr-64"}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <h1 className={"text-3xl font-bold mt-5"}>Edit District</h1>
+          <div className={"flex gap-x-2 items-center mt-5"}>
+            <ArrowLeft onClick={router.back} className="h-6 w-6 cursor-pointer"/>
+            <h1 className={"text-3xl font-bold"}>Tumanni tahrirlash</h1>
+          </div>
           <div className={"mt-10 grid gap-y-5"}>
             <FormField
               control={form.control}

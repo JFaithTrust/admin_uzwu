@@ -49,7 +49,7 @@ export const feedbackColumns: ColumnDef<Feedback>[] = [
     cell: ({row}) => <div className="lowercase">{row.getValue("message")}</div>
   },
   {
-    accessorKey: "createDate",
+    accessorKey: "dueDate",
     header: ({column}) => {
       return (
         <Button
@@ -61,7 +61,7 @@ export const feedbackColumns: ColumnDef<Feedback>[] = [
     },
     cell: ({row}) => (
       <div className="uppercase">
-        {format(row.getValue("createDate"), "dd/MM/yyyy")}
+        {format(row.getValue("dueDate"), "dd/MM/yyyy")}
       </div>
     )
   },

@@ -24,40 +24,48 @@ import {cn} from "@/lib/utils";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 
-const CreateWorker = () => {
+const EditWorkerPage = ({ params }: { params: { editId: string } }) => {
 
   const {jobCategories, getJobCategories} = useJobCategoryStore()
   const {regions, getRegions} = useRegionStore()
   const [valuer, setValuer] = useState("");
   const {getDistrictsByRegionId, districts} = useDistrictStore()
-  const { createWorker } = useWorkerStore()
+  const { updateWorker, getWorkerById, worker } = useWorkerStore()
 
   useEffect(() => {
     getJobCategories().then()
     getRegions().then()
-  }, []);
+    getWorkerById(params.editId).then()
+  }, [params.editId]);
+
+  useEffect(() => {
+    if(worker){
+      form.setValue("deadline", worker.deadline);
+      form.setValue("title", worker.title);
+      form.setValue("salary", worker.salary.toString());
+      form.setValue("gender", worker.gender === "Male" ? "1" : "0");
+      form.setValue("workingTime", worker.workingTime);
+      form.setValue("workingSchedule", worker.workingSchedule);
+      form.setValue("telegramLink", worker.telegramLink);
+      form.setValue("instagramLink", worker.instagramLink);
+      form.setValue("tgUserName", worker.tgUserName);
+      form.setValue("phoneNumber", '+' + worker.phoneNumber);
+    }
+  }, [worker]);
 
   const router = useRouter()
 
   const form = useForm<z.infer<typeof CreateWorkerSchema>>({
     resolver: zodResolver(CreateWorkerSchema),
     defaultValues: {
-      title: "",
-      salary: "",
-      gender: "2",
-      workingTime: "",
-      workingSchedule: "",
-      telegramLink: "",
-      instagramLink: "",
-      tgUserName: "",
-      phoneNumber: "",
       categoryId: "",
       districtId: "",
     },
   });
 
   function onSubmit(data: z.infer<typeof CreateWorkerSchema>) {
-    const createdWorker = {
+    const editedWorker = {
+      id: params.editId,
       deadline: data.deadline,
       birthDate: data.birthDate,
       title: data.title,
@@ -72,16 +80,17 @@ const CreateWorker = () => {
       categoryId: data.categoryId,
       districtId: data.districtId,
     }
-    createWorker(createdWorker).then(
-      () => {
-        form.reset()
-        toast.success("Worker created")
-      }
-    ).catch(
-      (e) => {
-        toast.error("Error creating worker", e)
-      }
-    )
+    console.log(editedWorker)
+    // createWorker(createdWorker).then(
+    //   () => {
+    //     form.reset()
+    //     toast.success("Worker created")
+    //   }
+    // ).catch(
+    //   (e) => {
+    //     toast.error("Error creating worker", e)
+    //   }
+    // )
   }
 
   return (
@@ -90,7 +99,7 @@ const CreateWorker = () => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className={"flex gap-x-2 items-center mt-5"}>
             <ArrowLeft onClick={router.back} className="h-6 w-6 cursor-pointer"/>
-            <h1 className="text-3xl font-bold">Ishchi yaratish</h1>
+            <h1 className="text-3xl font-bold">Ishchini tahrirlash</h1>
           </div>
           <div className="mt-10 grid gap-y-5">
             <FormField
@@ -135,60 +144,6 @@ const CreateWorker = () => {
               />
             </div>
             <div className="grid grid-cols-2 gap-x-12">
-              {/* Category Combobox */}
-              {/*<div>*/}
-              {/*  <Popover open={openc} onOpenChange={setOpenc}>*/}
-              {/*    <PopoverTrigger asChild>*/}
-              {/*      <Button*/}
-              {/*        variant="outline"*/}
-              {/*        role="combobox"*/}
-              {/*        aria-expanded={openc}*/}
-              {/*        className="w-full justify-between bg-white hover:bg-white text-darkindigo hover:text-darkindigo p-2 rounded-lg"*/}
-              {/*      >*/}
-              {/*<span className="truncate">*/}
-              {/*  {valuec*/}
-              {/*    ? allCategory.find(*/}
-              {/*      (category) =>*/}
-              {/*        category.title.toLocaleLowerCase() === valuec*/}
-              {/*    )?.title*/}
-              {/*    : "Kategoriya tanlang..."}*/}
-              {/*</span>*/}
-              {/*        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>*/}
-              {/*      </Button>*/}
-              {/*    </PopoverTrigger>*/}
-              {/*    <PopoverContent className="w-full p-0"*/}
-              {/*    >*/}
-              {/*      <Command>*/}
-              {/*        <CommandInput placeholder="Search framework..."/>*/}
-              {/*        <CommandEmpty>No framework found.</CommandEmpty>*/}
-              {/*        <CommandGroup>*/}
-              {/*          {allCategory.map((category) => (*/}
-              {/*            <CommandItem*/}
-              {/*              key={category.id}*/}
-              {/*              value={category.title}*/}
-              {/*              onSelect={(currentValue) => {*/}
-              {/*                setValuec(*/}
-              {/*                  currentValue === valuec ? "" : currentValue*/}
-              {/*                );*/}
-              {/*                setOpenc(false);*/}
-              {/*              }}*/}
-              {/*            >*/}
-              {/*              <Check*/}
-              {/*                className={cn(*/}
-              {/*                  "mr-2 h-4 w-4",*/}
-              {/*                  valuec === category.title.toLocaleLowerCase()*/}
-              {/*                    ? "opacity-100"*/}
-              {/*                    : "opacity-0"*/}
-              {/*                )}*/}
-              {/*              />*/}
-              {/*              {category.title}*/}
-              {/*            </CommandItem>*/}
-              {/*          ))}*/}
-              {/*        </CommandGroup>*/}
-              {/*      </Command>*/}
-              {/*    </PopoverContent>*/}
-              {/*  </Popover>*/}
-              {/*</div>*/}
               <FormField
                 control={form.control}
                 name="categoryId"
@@ -440,7 +395,7 @@ const CreateWorker = () => {
           </div>
           <div className="w-full flex justify-end">
             <Button type="submit" className="mt-5">
-              Create
+              Tahrirlash
             </Button>
           </div>
         </form>
@@ -449,4 +404,4 @@ const CreateWorker = () => {
   );
 };
 
-export default CreateWorker;
+export default EditWorkerPage;

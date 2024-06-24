@@ -1,5 +1,5 @@
 import axios from "@/store/axios";
-import {District, FAQ, Feedback, JobCategory, Region, Worker} from "@/types";
+import {District, FAQ, Feedback, Job, JobCategory, Region, Worker} from "@/types";
 
 // District
 export async function getDistricts() {
@@ -110,6 +110,19 @@ export async function getFaqs() {
   return data;
 }
 
+export async function getFaqById(id: string) {
+  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')!)
+    : null;
+
+  const {data} = await axios.get<FAQ>(`/api/FAQ/GetById/${id}`, {
+    headers: {
+      Authorization: `Bearer ${initialUser.token}`,
+    },
+  });
+  return data;
+}
+
 export async function createFaq(faq: {question: string; answer: string}) {
   const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')!)
@@ -154,7 +167,20 @@ export async function getFeedbacks() {
   return data;
 }
 
-export async function createFeedback(feedback: {message: string; fullName: string;}) {
+export async function getFeedbackById(id: string) {
+  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')!)
+    : null;
+
+  const {data} = await axios.get<Feedback>(`/api/Feedback/GetById/${id}`, {
+    headers: {
+      Authorization: `Bearer ${initialUser.token}`,
+    },
+  });
+  return data;
+}
+
+export async function createFeedback(feedback: {message: string; fullName: string; dueDate: Date}) {
   const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')!)
     : null;
@@ -242,6 +268,101 @@ export async function deleteJobCategory(id: string) {
 }
 
 // Job
+export async function getJobs() {
+  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')!)
+    : null;
+
+  const {data} = await axios.get<Job[]>("/api/Job/GetAllForAdmin", {
+    headers: {
+      Authorization: `Bearer ${initialUser.token}`,
+    },
+  });
+  return data;
+}
+
+export async function getJobById(id: string) {
+  const {data} = await axios.get<Job>(`/api/Job/GetById/${id}`);
+  return data;
+}
+
+export async function createJob(job:{
+  title: string;
+  salary: number;
+  gender: number;
+  workingTime: string;
+  workingSchedule: string;
+  deadline: Date;
+  instagramLink: string | undefined;
+  telegramLink: string | undefined
+  tgUserName: string;
+  phoneNumber: string;
+  benefit: string;
+  requirement: string;
+  minAge: number;
+  maxAge: number;
+  longitude: number;
+  latitude: number;
+  categoryId: string;
+  districtId: string;
+}){
+  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')!)
+    : null;
+  const {data} = await axios.post<Job>("/api/Job/Create", job, {
+    headers: {
+      Authorization: `Bearer ${initialUser.token}`,
+    },
+  });
+  return data;
+}
+
+export async function updateJob(job: Job) {
+  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')!)
+    : null;
+  const {data} = await axios.put<Job>("/api/Job/Update", job, {
+    headers: {
+      Authorization: `Bearer ${initialUser.token}`,
+    },
+  });
+  return data;
+}
+
+export async function activateJobStatus(id: string){
+  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')!)
+    : null;
+  const { data } = await axios.put<Job>(`api/Job/Activate/${id}`,{}, {
+    headers: {
+      Authorization: `Bearer ${initialUser.token}`,
+    },
+  })
+  return data;
+}
+
+export async function deactivateJobStatus(id: string){
+  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')!)
+    : null;
+  const { data } = await axios.put<Job>(`api/Job/Deactivate/${id}`,{}, {
+    headers: {
+      Authorization: `Bearer ${initialUser.token}`,
+    },
+  })
+  return data;
+}
+
+export async function deleteJob(id: string) {
+  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')!)
+    : null;
+  await axios.delete(`/api/Job/Delete/${id}`, {
+    headers: {
+      Authorization: `Bearer ${initialUser.token}`,
+    },
+  });
+}
 
 // Worker
 export async function getWorkers() {
@@ -263,19 +384,19 @@ export async function getWorkerById(id: string) {
 }
 
 export async function createWorker(worker: {
-  title: string;
+  instagramLink: string | undefined;
   gender: number;
-  salary: number;
-  instagramLink?: string;
-  telegramLink?: string;
-  tgUsername: string;
+  telegramLink: string | undefined;
   workingTime: string;
-  workingSchedule: string;
+  title: string;
+  salary: number;
+  tgUserName: string;
   birthDate: Date;
-  deadline: Date;
+  workingSchedule: string;
   phoneNumber: string;
   districtId: string;
-  categoryId: string;
+  deadline: Date;
+  categoryId: string
 }) {
   const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')!)
@@ -302,12 +423,25 @@ export async function updateWorker(worker: Worker) {
   return data;
 }
 
-export async function updateWorkerStatus(id: string, status: boolean){
+export async function activateWorkerStatus(id: string){
   const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')!)
     : null;
 
-  const { data } = await axios.put<Worker>(`api/Worker/ChangeStatus/${id}`, status, {
+  const { data } = await axios.put<Worker>(`api/Worker/Activate/${id}`,{}, {
+    headers: {
+      Authorization: `Bearer ${initialUser.token}`,
+    },
+  })
+  return data;
+}
+
+export async function deactivateWorkerStatus(id: string){
+  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')!)
+    : null;
+
+  const { data } = await axios.put<Worker>(`api/Worker/Deactivate/${id}`,{}, {
     headers: {
       Authorization: `Bearer ${initialUser.token}`,
     },

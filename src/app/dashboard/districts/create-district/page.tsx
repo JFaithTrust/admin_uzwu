@@ -6,16 +6,19 @@ import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {toast} from "sonner";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import useDistrictStore from "@/store/district-store";
 import useRegionStore from "@/store/region-store";
+import {useRouter} from "next/navigation";
+import {ArrowLeft} from "lucide-react";
 
 const CreateDistrictPage = () => {
   const { createDistrict } = useDistrictStore();
   const { regions, getRegions } = useRegionStore()
+  const router = useRouter();
 
   useEffect(() => {
     getRegions().then()
@@ -43,12 +46,15 @@ const CreateDistrictPage = () => {
     <div className={"w-full h-full px-3 pb-10 pr-64"}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <h1 className={"text-3xl font-bold mt-5"}>Create District</h1>
+          <div className={"flex gap-x-2 items-center mt-5"}>
+            <ArrowLeft onClick={router.back} className="h-6 w-6 cursor-pointer"/>
+            <h1 className={"text-3xl font-bold"}>Tuman yaratish</h1>
+          </div>
           <div className={"mt-10 grid gap-y-5"}>
             <FormField
               control={form.control}
               name="regionId"
-              render={({ field }) => (
+              render={({field}) => (
                 <FormItem>
                   <FormLabel>Regions</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>

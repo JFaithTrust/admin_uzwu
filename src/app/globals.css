@@ -1,4 +1,9 @@
 @tailwind base;
   @tailwind components;
   @tailwind utilities;
-  
+
+/* add this snippet in your globals.css file */
+
+.rdp-vhidden {
+  @apply hidden;
+}

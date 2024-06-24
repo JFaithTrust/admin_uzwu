@@ -1,19 +1,21 @@
-"use client";
+"use client"
 
-import {Badge} from "@/components/ui/badge";
-import React, {useEffect} from "react";
-import {format} from "date-fns";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
-import {formatNumber} from "@/lib/utils";
-import useWorkerStore from "@/store/worker-store";
+import React, {useEffect} from "react";
+import useJobStore from "@/store/job-store";
 import {DetailSkeleton} from "@/components/skeletons/detail-skeleton";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {Badge} from "@/components/ui/badge";
+import {format} from "date-fns";
+import {formatNumber} from "@/lib/utils";
 
 interface SocialButtonProps {
   link: string
   title: string
 }
+
+
 
 function SocialButtonTg({link, title}: SocialButtonProps) {
   return <Button
@@ -151,14 +153,14 @@ function SocialButtonIn({link, title}: SocialButtonProps) {
   </Button>;
 }
 
-const ViewId = ({params}: { params: { viewId: string } }) => {
-  const {worker, getWorkerById} = useWorkerStore();
+const ViewJobPage = ({params}: { params: { viewId: string } }) => {
+  const { job, getJobById } = useJobStore()
 
   useEffect(() => {
-    getWorkerById(params.viewId).then();
-  }, [getWorkerById, params.viewId]);
+    getJobById(params.viewId).then();
+  }, [getJobById, params.viewId]);
 
-  if (!worker) {
+  if (!job) {
     return (
       <div className="flex flex-col gap-y-8">
         <div
@@ -169,8 +171,7 @@ const ViewId = ({params}: { params: { viewId: string } }) => {
     )
   }
 
-
-  return (
+  return(
     <div className="flex flex-col gap-y-8">
       <div
         className="grid lg:grid-cols-2 grid-cols-1 justify-center lg:gap-x-4 gap-x-0 lg:gap-y-0 gap-y-4 container">
@@ -180,19 +181,19 @@ const ViewId = ({params}: { params: { viewId: string } }) => {
             <Avatar>
               <AvatarImage
                 src="/src/assets/worker.svg"
-                alt={worker?.fullName}
+                alt={job?.title}
               />
-              <AvatarFallback>{worker?.fullName.charAt(0)}</AvatarFallback>
+              <AvatarFallback>{job?.title?.charAt(0)}</AvatarFallback>
             </Avatar>
             <h1 className="font-bold text-xl">
-              {worker?.fullName}
+              {job?.title}
             </h1>
           </div>
           <div className="flex flex-row gap-x-5 items-center">
             <div className="flex flex-col items-center gap-y-0.5">
               <span className="text-sm">Ish turi</span>
               <Badge variant={"secondary"} className="font-semibold">
-                {worker?.categoryName}
+                {job?.categoryName}
               </Badge>
             </div>
             <div className="h-fit w-[3px]"/>
@@ -200,80 +201,88 @@ const ViewId = ({params}: { params: { viewId: string } }) => {
               <span className="text-sm">Jins</span>
               <Badge variant={"secondary"} className="font-semibold">
                 {
-                  worker.gender === "Male" ? "Erkak" : worker.gender === "Female" ? "Ayol" : "Unknown"
+                  job.gender === "Male" ? "Erkak" : job.gender === "Female" ? "Ayol" : "Unknown"
                 }
               </Badge>
             </div>
           </div>
           <div className="flex flex-col pt-3 gap-y-3">
             <h2 className="font-bold text-2xl">
-              Ishchi haqida to&apos;liq malumotlar
+              Ish haqida to&apos;liq malumotlar
             </h2>
-            <div className="flex flex-col gap-y-1">
-                <span className="font-normal text-base text-gray-400">
-                  F.I.SH
-                </span>
-              <span className="font-semibold text-lg">
-                  {worker?.fullName}
-                </span>
-            </div>
-            <div className="flex flex-col gap-y-1">
-                <span className="font-normal text-base text-gray-400">
-                  Tug&apos;ilgan sana
-                </span>
-              <span className=" font-semibold text-lg">
-                  {format(worker?.birthDate || new Date(), "dd.MM.yyyy")}-yil
-                </span>
-            </div>
             <div className="flex flex-col gap-y-1">
                 <span className="font-normal text-base text-gray-400">
                   Maosh
                 </span>
-              <span className=" font-semibold text-lg">
-                  {formatNumber(worker?.salary)} so&apos;m/oy
+              <span className="font-semibold text-lg">
+                  {formatNumber(job?.salary)} so&apos;m/oy
                 </span>
             </div>
             <div className="flex flex-col gap-y-1">
                   <span className="font-normal text-base text-gray-400">
                     Ish vaqti
                   </span>
-              <span className=" font-semibold text-lg">
-                    {worker?.workingTime}
+              <span className="font-semibold text-lg">
+                    {job?.workingTime}
                   </span>
             </div>
             <div className="flex flex-col gap-y-1">
                   <span className="font-normal text-base text-gray-400">
                     Ish grafigi
                   </span>
-              <span className=" font-semibold text-lg">
-                    {worker?.workingSchedule}
+              <span className="font-semibold text-lg">
+                    {job?.workingSchedule}
                   </span>
+            </div>
+            <div className="flex flex-col gap-y-1">
+                <span className="font-normal text-base text-gray-400">
+                  Sharoitlar
+                </span>
+              <span className="font-semibold text-lg">
+                  {job?.benefit}
+                </span>
+            </div>
+            <div className="flex flex-col gap-y-1">
+                <span className="font-normal text-base text-gray-400">
+                  Yosh uchun talab
+                </span>
+              <span className="font-semibold text-lg">
+                  {job?.minAge} dan {job?.maxAge} gacha
+                </span>
+            </div>
+            <div className="flex flex-col gap-y-1">
+                <span className="font-normal text-base text-gray-400">
+                  Talablar
+                </span>
+              <span className="font-semibold text-lg">
+                  {job?.requirement}
+                </span>
             </div>
             <div className="flex flex-col gap-y-1">
                 <span className="font-normal text-base text-gray-400">
                   E&apos;lon berilgan sana
                 </span>
-              <span className=" font-semibold text-lg">
-                  {format(worker?.createDate || new Date(), "dd.MM.yyyy")}-yil
+              <span className="font-semibold text-lg">
+                  {format(job?.createDate || new Date(), "dd.MM.yyyy")}-yil
                 </span>
             </div>
             <div className="flex flex-col gap-y-1">
                 <span className="font-normal text-base text-gray-400">
                   Manzil
                 </span>
-              <span className=" font-semibold text-lg">
-                  {worker?.regionName}, {worker?.districtName}
+              <span className="font-semibold text-lg">
+                  {job?.regionName}, {job?.districtName}
                 </span>
             </div>
             {
-              (worker?.telegramLink || worker?.instagramLink) && (
+              (job?.telegramLink || job?.instagramLink) && (
                 <div className="flex flex-col gap-y-1">
                     <span className="font-normal text-base text-gray-400">
                       Ijtimoiy tarmoqlardan ko&apos;rish
                     </span>
                   <div className="flex sm:flex-row flex-col sm:gap-x-16 gap-x-0 sm:gap-y-0 gap-y-2">
-                    {worker?.telegramLink && (<SocialButtonTg link={worker.telegramLink} title={'Telegram'}/>)}
-                    {worker?.instagramLink && (<SocialButtonIn link={worker.instagramLink} title={'Instagram'}/>)}
+                    {job?.telegramLink && (<SocialButtonTg link={job.telegramLink} title={'Telegram'}/>)}
+                    {job?.instagramLink && (<SocialButtonIn link={job.instagramLink} title={'Instagram'}/>)}
                   </div>
                 </div>
               )
@@ -286,7 +295,7 @@ const ViewId = ({params}: { params: { viewId: string } }) => {
                 <Button
                   className="sm:w-fit w-full text-blue-400 bg-white px-5 py-1 border-blue-400 hover:bg-blue-400 border-2 border-solid rounded-md hover:text-white"
                 >
-                  <Link href={`https://t.me/${worker?.tgUserName}`} className={"flex flex-row gap-x-2.5"}>
+                  <Link href={`https://t.me/${job?.tgUserName}`} className={"flex flex-row gap-x-2.5"}>
                     <svg
                       width="25"
                       height="24"
@@ -351,7 +360,7 @@ const ViewId = ({params}: { params: { viewId: string } }) => {
                 <Button
                   className="sm:w-fit w-full text-green-400 bg-white px-5 py-1 border-green-400 hover:bg-green-400 border-2 border-solid rounded-md hover:text-white"
                 >
-                  <Link href={`tel:${worker?.phoneNumber}`} className={'flex flex-row gap-x-2.5'}>
+                  <Link href={`tel:${job?.phoneNumber}`} className={'flex flex-row gap-x-2.5'}>
                     <svg
                       width="25"
                       height="24"
@@ -380,6 +389,6 @@ const ViewId = ({params}: { params: { viewId: string } }) => {
       </div>
     </div>
   )
-};
+}
 
-export default ViewId;
+export default ViewJobPage;

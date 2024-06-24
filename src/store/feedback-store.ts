@@ -1,14 +1,16 @@
 import { Feedback} from "@/types";
 import {create} from "zustand";
-import { getFeedbacks, createFeedback, updateFeedback, deleteFeedback } from "@/store/api";
+import { getFeedbacks, createFeedback, updateFeedback, deleteFeedback, getFeedbackById } from "@/store/api";
 
 interface FeedbackState{
   feedbacks: Feedback[];
   feedback: Feedback | null;
   getFeedbacks: () => Promise<void>;
+  getFeedbackById: (id: string) => Promise<void>;
   createFeedback: (feedback: {
     message: string;
     fullName: string;
+    dueDate: Date;
   }) => Promise<void>;
   updateFeedback: (feedback: Feedback) => Promise<void>;
   deleteFeedback: (id: string) => Promise<void>;
@@ -21,6 +23,12 @@ const useFeedbackStore = create<FeedbackState>((set) => ({
     const feedbacks = await getFeedbacks();
     return set(
       (state) => ({...state, feedbacks})
+    );
+  },
+  getFeedbackById: async (id) => {
+    const feedback = await getFeedbackById(id);
+    return set(
+      (state) => ({...state, feedback})
     );
   },
   createFeedback: async (feedback) => {
