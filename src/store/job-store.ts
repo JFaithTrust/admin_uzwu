@@ -27,7 +27,27 @@ interface JobState{
     categoryId: string;
     districtId: string;
   }) => Promise<void>,
-  updateJob: (job: Job) => Promise<void>,
+  updateJob: (job: {
+    id: string;
+    title: string;
+    salary: number;
+    gender: number;
+    workingTime: string;
+    workingSchedule: string;
+    deadline: Date;
+    instagramLink: string | undefined;
+    telegramLink: string | undefined
+    tgUserName: string;
+    phoneNumber: string;
+    benefit: string;
+    requirement: string;
+    minAge: number;
+    maxAge: number;
+    longitude: number;
+    latitude: number;
+    categoryId: string;
+    districtId: string;
+  }) => Promise<void>,
   updateJobStatus: (id: string, status: boolean) => Promise<void>,
   deleteJob: (id: string) => Promise<void>
 }
@@ -53,7 +73,7 @@ const useJobStore = create<JobState>((set) => ({
       (state) => ({...state, jobs: [...state.jobs, newJob]})
     );
   },
-  updateJob: async (job: Job) => {
+  updateJob: async (job) => {
     const updatedJob = await updateJob(job);
     return set(
       (state) => ({

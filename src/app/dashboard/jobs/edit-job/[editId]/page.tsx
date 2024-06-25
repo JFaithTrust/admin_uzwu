@@ -8,7 +8,7 @@ import useJobStore from "@/store/job-store";
 import {useRouter} from "next/navigation";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
-import {CreateJobSchema, CreateWorkerSchema} from "@/lib/validation";
+import {CreateJobSchema, CreateWorkerSchema, UpdateJobSchema} from "@/lib/validation";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {toast} from "sonner";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
@@ -28,9 +28,9 @@ import {Textarea} from "@/components/ui/textarea";
 const EditJobPage = ({ params }: { params: { editId: string } }) => {
   const {jobCategories, getJobCategories} = useJobCategoryStore()
   const {regions, getRegions} = useRegionStore()
-  const [valuer, setValuer] = useState("");
   const {getDistrictsByRegionId, districts} = useDistrictStore()
   const {updateJob, job, getJobById} = useJobStore()
+  const [isLoaded, setIsLoaded] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const EditJobPage = ({ params }: { params: { editId: string } }) => {
       form.setValue("gender", job.gender === "Male" ? "1" : "0");
       form.setValue("workingTime", job.workingTime);
       form.setValue("workingSchedule", job.workingSchedule);
-      form.setValue("deadline", job.deadline);
+      form.setValue("deadline", new Date(job.deadline));
       form.setValue("telegramLink", job.telegramLink);
       form.setValue("instagramLink", job.instagramLink);
       form.setValue("tgUserName", job.tgUserName);
@@ -57,18 +57,23 @@ const EditJobPage = ({ params }: { params: { editId: string } }) => {
       form.setValue("maxAge", job.maxAge.toString());
       form.setValue("longitude", job.longitude.toString());
       form.setValue("latitude", job.latitude.toString());
+      form.setValue("categoryId", job.jobCategory.id);
+      form.setValue("regionId", job.district.region.id);
+      getDistrictsByRegionId(job.district.region.id).then()
+      form.setValue("districtId", job.district.id);
+      setIsLoaded(true)
     }
   }, [job]);
 
-  const form = useForm<z.infer<typeof CreateJobSchema>>({
-    resolver: zodResolver(CreateJobSchema),
+  const form = useForm<z.infer<typeof UpdateJobSchema>>({
+    resolver: zodResolver(UpdateJobSchema),
     defaultValues: {
       categoryId: "",
       districtId: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof CreateJobSchema>) {
+  function onSubmit(data: z.infer<typeof UpdateJobSchema>) {
     const updatedJob = {
       id: params.editId,
       title: data.title,
@@ -90,17 +95,16 @@ const EditJobPage = ({ params }: { params: { editId: string } }) => {
       categoryId: data.categoryId,
       districtId: data.districtId,
     }
-    console.log(updatedJob)
-    // createJob(createdJob).then(
-    //   () => {
-    //     form.reset()
-    //     toast.success("Worker created")
-    //   }
-    // ).catch(
-    //   (e) => {
-    //     toast.error("Error creating worker", e)
-    //   }
-    // )
+    updateJob(updatedJob).then(
+      () => {
+        router.back()
+        toast.success("Job updated successfully")
+      }
+    ).catch(
+      (e) => {
+        toast.error("Error updating job", e)
+      }
+    )
   }
 
   return (
@@ -328,40 +332,25 @@ const EditJobPage = ({ params }: { params: { editId: string } }) => {
             </div>
             <div className={"grid grid-cols-2 gap-x-12"}>
               {/* Regions Combobox */}
-              <div>
-                <Label>Viloyatlar</Label>
-                <Select onValueChange={(value) => {
-                  setValuer(value)
-                  getDistrictsByRegionId(value).then()
-                }}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Tanlang..."/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {regions.map((r) => (
-                      <SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              {/*Districts Combobox*/}
               <FormField
                 control={form.control}
-                name="districtId"
+                name="regionId"
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>Tumanlar</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value} disabled={
-                      !valuer
-                    }>
+                    <FormLabel>Viloyatlar</FormLabel>
+                    <Select onValueChange={
+                      (value) => {
+                        field.onChange(value)
+                        getDistrictsByRegionId(value).then()
+                      }} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Tanlang..."/>
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {districts.map((d) => (
-                          <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                        {regions.map((r) => (
+                          <SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -369,6 +358,31 @@ const EditJobPage = ({ params }: { params: { editId: string } }) => {
                   </FormItem>
                 )}
               />
+              {/*Districts Combobox*/}
+              {isLoaded &&
+                <FormField
+                  control={form.control}
+                  name="districtId"
+                  render={({field}) => (
+                    <FormItem>
+                      <FormLabel>Tumanlar</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Tanlang..."/>
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {districts.map((d) => (
+                            <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage/>
+                    </FormItem>
+                  )}
+                />
+              }
             </div>
             <div className="grid grid-cols-4 gap-x-12">
               <FormField

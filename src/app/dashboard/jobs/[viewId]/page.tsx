@@ -193,7 +193,7 @@ const ViewJobPage = ({params}: { params: { viewId: string } }) => {
             <div className="flex flex-col items-center gap-y-0.5">
               <span className="text-sm">Ish turi</span>
               <Badge variant={"secondary"} className="font-semibold">
-                {job?.categoryName}
+                {job?.jobCategory.title}
               </Badge>
             </div>
             <div className="h-fit w-[3px]"/>
@@ -271,7 +271,7 @@ const ViewJobPage = ({params}: { params: { viewId: string } }) => {
                   Manzil
                 </span>
               <span className="font-semibold text-lg">
-                  {job?.regionName}, {job?.districtName}
+                  {job?.district.region.name}, {job?.district.name}
                 </span>
             </div>
             {

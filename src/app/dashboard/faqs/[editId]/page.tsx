@@ -13,16 +13,16 @@ import useFaqStore from "@/store/faq-store";
 import {useRouter} from "next/navigation";
 import {ArrowLeft} from "lucide-react";
 
-const EditFaqPage = ({ params }: { params: { editId: string } }) => {
-  const { updateFaq, faq, getFaqById } = useFaqStore();
+const EditFaqPage = ({params}: { params: { editId: string } }) => {
+  const {updateFaq, faq, getFaqById} = useFaqStore();
   const router = useRouter();
 
-  useEffect(() =>{
+  useEffect(() => {
     getFaqById(params.editId).then()
   }, []);
 
   useEffect(() => {
-    if(faq){
+    if (faq) {
       form.setValue("question", faq.question);
       form.setValue("answer", faq.answer);
     }
@@ -46,7 +46,7 @@ const EditFaqPage = ({ params }: { params: { editId: string } }) => {
     }
     updateFaq(editedFaq).then(() => {
       toast.success("F.A.Q. muvaffaqiyatli o'zgartirildi")
-      form.reset();
+      router.back()
     }).catch(() => {
       toast.error("F.A.Q. o'zgartirishda xatolik yuz berdi")
     })
@@ -56,10 +56,7 @@ const EditFaqPage = ({ params }: { params: { editId: string } }) => {
     <div className={"w-full h-full px-3 pb-10 pr-64"}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className={"flex gap-x-2 items-center mt-5"}>
-            <ArrowLeft onClick={router.back} className="h-6 w-6 cursor-pointer"/>
-            <h1 className={"text-3xl font-bold"}>F.A.Q. tahrirlash</h1>
-          </div>
+          <h1 className={"text-3xl font-bold mt-5"}>F.A.Q. tahrirlash</h1>
           <div className={"mt-10 grid gap-y-5"}>
             <FormField
               control={form.control}

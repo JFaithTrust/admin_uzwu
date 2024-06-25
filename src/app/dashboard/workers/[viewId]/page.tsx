@@ -192,7 +192,7 @@ const ViewId = ({params}: { params: { viewId: string } }) => {
             <div className="flex flex-col items-center gap-y-0.5">
               <span className="text-sm">Ish turi</span>
               <Badge variant={"secondary"} className="font-semibold">
-                {worker?.categoryName}
+                {worker?.jobCategory.title}
               </Badge>
             </div>
             <div className="h-fit w-[3px]"/>
@@ -262,7 +262,7 @@ const ViewId = ({params}: { params: { viewId: string } }) => {
                   Manzil
                 </span>
               <span className=" font-semibold text-lg">
-                  {worker?.regionName}, {worker?.districtName}
+                  {worker?.district.region.name}, {worker?.district.name}
                 </span>
             </div>
             {

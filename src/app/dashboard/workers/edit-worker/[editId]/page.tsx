@@ -15,7 +15,7 @@ import useJobCategoryStore from "@/store/job-category-store";
 import useRegionStore from "@/store/region-store";
 import useDistrictStore from "@/store/district-store";
 import useWorkerStore from "@/store/worker-store";
-import {CreateWorkerSchema} from "@/lib/validation";
+import {CreateWorkerSchema, updateWorkerSchema} from "@/lib/validation";
 import {Calendar} from "@/components/ui/calendar";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {ArrowLeft, CalendarIcon} from "lucide-react";
@@ -24,13 +24,14 @@ import {cn} from "@/lib/utils";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 
-const EditWorkerPage = ({ params }: { params: { editId: string } }) => {
+const EditWorkerPage = ({params}: { params: { editId: string } }) => {
 
   const {jobCategories, getJobCategories} = useJobCategoryStore()
   const {regions, getRegions} = useRegionStore()
-  const [valuer, setValuer] = useState("");
   const {getDistrictsByRegionId, districts} = useDistrictStore()
-  const { updateWorker, getWorkerById, worker } = useWorkerStore()
+  const {updateWorker, getWorkerById, worker} = useWorkerStore()
+  const [isLoaded, setIsLoaded] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     getJobCategories().then()
@@ -39,8 +40,9 @@ const EditWorkerPage = ({ params }: { params: { editId: string } }) => {
   }, [params.editId]);
 
   useEffect(() => {
-    if(worker){
-      form.setValue("deadline", worker.deadline);
+    if (worker) {
+      form.setValue("deadline", new Date(worker.deadline));
+      form.setValue("birthDate", new Date(worker.birthDate));
       form.setValue("title", worker.title);
       form.setValue("salary", worker.salary.toString());
       form.setValue("gender", worker.gender === "Male" ? "1" : "0");
@@ -50,21 +52,24 @@ const EditWorkerPage = ({ params }: { params: { editId: string } }) => {
       form.setValue("instagramLink", worker.instagramLink);
       form.setValue("tgUserName", worker.tgUserName);
       form.setValue("phoneNumber", '+' + worker.phoneNumber);
+      form.setValue("categoryId", worker.jobCategory.id);
+      form.setValue("regionId", worker.district.region.id);
+      getDistrictsByRegionId(worker.district.region.id).then()
+      form.setValue("districtId", worker.district.id);
+      setIsLoaded(true)
     }
   }, [worker]);
 
-  const router = useRouter()
-
-  const form = useForm<z.infer<typeof CreateWorkerSchema>>({
-    resolver: zodResolver(CreateWorkerSchema),
+  const form = useForm<z.infer<typeof updateWorkerSchema>>({
+    resolver: zodResolver(updateWorkerSchema),
     defaultValues: {
       categoryId: "",
       districtId: "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof CreateWorkerSchema>) {
-    const editedWorker = {
+  function onSubmit(data: z.infer<typeof updateWorkerSchema>) {
+    const updatedWorker = {
       id: params.editId,
       deadline: data.deadline,
       birthDate: data.birthDate,
@@ -80,17 +85,16 @@ const EditWorkerPage = ({ params }: { params: { editId: string } }) => {
       categoryId: data.categoryId,
       districtId: data.districtId,
     }
-    console.log(editedWorker)
-    // createWorker(createdWorker).then(
-    //   () => {
-    //     form.reset()
-    //     toast.success("Worker created")
-    //   }
-    // ).catch(
-    //   (e) => {
-    //     toast.error("Error creating worker", e)
-    //   }
-    // )
+    updateWorker(updatedWorker).then(
+      () => {
+        router.back()
+        toast.success("Worker updated successfully!")
+      }
+    ).catch(
+      (e) => {
+        toast.error("Error updating worker", e)
+      }
+    )
   }
 
   return (
@@ -236,7 +240,7 @@ const EditWorkerPage = ({ params }: { params: { editId: string } }) => {
                             ) : (
                               <span>Pick a date</span>
                             )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50"/>
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
@@ -276,7 +280,7 @@ const EditWorkerPage = ({ params }: { params: { editId: string } }) => {
                             ) : (
                               <span>Pick a date</span>
                             )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50"/>
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
@@ -298,40 +302,25 @@ const EditWorkerPage = ({ params }: { params: { editId: string } }) => {
             </div>
             <div className={"grid grid-cols-2 gap-x-12"}>
               {/* Regions Combobox */}
-              <div>
-                <Label>Viloyatlar</Label>
-                <Select onValueChange={(value) => {
-                  setValuer(value)
-                  getDistrictsByRegionId(value).then()
-                }}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Tanlang..."/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {regions.map((r) => (
-                      <SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              {/*Districts Combobox*/}
               <FormField
                 control={form.control}
-                name="districtId"
+                name="regionId"
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>Tumanlar</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value} disabled={
-                      !valuer
-                    }>
+                    <FormLabel>Viloyatlar</FormLabel>
+                    <Select onValueChange={
+                      (value) => {
+                        field.onChange(value)
+                        getDistrictsByRegionId(value).then()
+                      }} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Tanlang..."/>
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {districts.map((d) => (
-                          <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                        {regions.map((r) => (
+                          <SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -339,6 +328,31 @@ const EditWorkerPage = ({ params }: { params: { editId: string } }) => {
                   </FormItem>
                 )}
               />
+              {/*Districts Combobox*/}
+              {isLoaded &&
+                <FormField
+                  control={form.control}
+                  name="districtId"
+                  render={({field}) => (
+                    <FormItem>
+                      <FormLabel>Tumanlar</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Tanlang..."/>
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {districts.map((d) => (
+                            <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage/>
+                    </FormItem>
+                  )}
+                />
+              }
             </div>
             <div className="grid grid-cols-4 gap-x-12">
               <FormField

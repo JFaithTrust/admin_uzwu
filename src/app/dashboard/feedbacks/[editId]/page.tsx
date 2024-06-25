@@ -18,19 +18,19 @@ import {format} from "date-fns";
 import {Calendar} from "@/components/ui/calendar";
 import {useRouter} from "next/navigation";
 
-const EditFeedbackPage = ({ params }: { params: { editId: string } }) => {
-  const { updateFeedback, feedback, getFeedbackById } = useFeedbackStore();
+const EditFeedbackPage = ({params}: { params: { editId: string } }) => {
+  const {updateFeedback, feedback, getFeedbackById} = useFeedbackStore();
   const router = useRouter();
 
-  useEffect(() =>{
+  useEffect(() => {
     getFeedbackById(params.editId).then()
   }, []);
 
   useEffect(() => {
-    if(feedback){
+    if (feedback) {
       form.setValue("message", feedback.message);
       form.setValue("fullName", feedback.fullName);
-      form.setValue("dueDate", feedback.dueDate);
+      form.setValue("dueDate", new Date(feedback.dueDate));
     }
   }, [feedback]);
 
@@ -46,10 +46,9 @@ const EditFeedbackPage = ({ params }: { params: { editId: string } }) => {
       fullName: values.fullName,
       dueDate: values.dueDate,
     }
-    console.log(editedFeedback)
     updateFeedback(editedFeedback).then(() => {
       toast.success("Feedbacks successfully edited")
-      form.reset();
+      router.back()
     }).catch(() => {
       toast.error("Error editing feedbacks")
     })
@@ -59,10 +58,7 @@ const EditFeedbackPage = ({ params }: { params: { editId: string } }) => {
     <div className={"w-full h-full px-3 pb-10 pr-64"}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className={"flex gap-x-2 items-center mt-5"}>
-            <ArrowLeft onClick={router.back} className="h-6 w-6 cursor-pointer"/>
-            <h1 className={"text-3xl font-bold"}>Fikr-mulohazani tahrirlash</h1>
-          </div>
+          <h1 className={"text-3xl font-bold mt-5"}>Fikr-mulohazani tahrirlash</h1>
           <div className={"mt-10 grid gap-y-5"}>
             <div className={"flex justify-between gap-x-12 items-end"}>
               <FormField

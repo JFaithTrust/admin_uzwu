@@ -13,9 +13,8 @@ class BaseObject{
   instagramLink: string;
   tgUserName: string;
   phoneNumber: string;
-  regionName: string;
-  districtName: string;
-  categoryName: string;
+  jobCategory: JobCategory;
+  district: District;
 }
 
 export class Job extends BaseObject {
@@ -37,6 +36,7 @@ export class Worker extends BaseObject {
 export interface District {
   id: string;
   name: string;
+  region: Region;
 }
 
 export interface Region {

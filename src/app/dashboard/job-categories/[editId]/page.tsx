@@ -14,16 +14,16 @@ import useJobCategoryStore from "@/store/job-category-store";
 import {ArrowLeft} from "lucide-react";
 import {useRouter} from "next/navigation";
 
-const EditJobCategoryPage = ({ params }: { params: { editId: string } }) => {
-  const { updateJobCategory, jobCategory, getJobCategoryById } = useJobCategoryStore();
+const EditJobCategoryPage = ({params}: { params: { editId: string } }) => {
+  const {updateJobCategory, jobCategory, getJobCategoryById} = useJobCategoryStore();
   const router = useRouter();
 
-  useEffect(() =>{
+  useEffect(() => {
     getJobCategoryById(params.editId).then()
   }, []);
 
   useEffect(() => {
-    if(jobCategory){
+    if (jobCategory) {
       form.setValue("title", jobCategory.title);
       form.setValue("description", jobCategory.description);
     }
@@ -45,7 +45,7 @@ const EditJobCategoryPage = ({ params }: { params: { editId: string } }) => {
     }
     updateJobCategory(editedJobCategory).then(() => {
       toast.success("Job category successfully updated")
-      form.reset();
+      router.back()
     }).catch(() => {
       toast.error("Error occurred while updating job category")
     })
@@ -55,10 +55,7 @@ const EditJobCategoryPage = ({ params }: { params: { editId: string } }) => {
     <div className={"w-full h-full px-3 pb-10 pr-64"}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className={"flex gap-x-2 items-center mt-5"}>
-            <ArrowLeft onClick={router.back} className="h-6 w-6 cursor-pointer"/>
-            <h1 className={"text-3xl font-bold"}>Ish turini tahrirlash</h1>
-          </div>
+          <h1 className={"text-3xl font-bold mt-5"}>Ish turini tahrirlash</h1>
           <div className={"mt-10 grid gap-y-5"}>
             <FormField
               control={form.control}

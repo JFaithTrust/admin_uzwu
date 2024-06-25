@@ -8,21 +8,36 @@ interface WorkerState{
   getWorkers: () => Promise<void>,
   getWorkerById: (id: string) => Promise<void>,
   createWorker: (worker: {
-    instagramLink: string | undefined;
-    gender: number;
-    telegramLink: string | undefined;
-    workingTime: string;
+    deadline: Date;
+    birthDate: Date;
     title: string;
     salary: number;
-    tgUserName: string;
-    birthDate: Date;
+    gender: number;
+    workingTime: string;
     workingSchedule: string;
+    instagramLink: string | undefined;
+    telegramLink: string | undefined;
+    tgUserName: string;
     phoneNumber: string;
     districtId: string;
-    deadline: Date;
     categoryId: string
   }) => Promise<void>,
-  updateWorker: (worker: Worker) => Promise<void>,
+  updateWorker: (worker: {
+    id: string;
+    deadline: Date;
+    birthDate: Date;
+    title: string;
+    salary: number;
+    gender: number;
+    workingTime: string;
+    workingSchedule: string;
+    instagramLink: string | undefined;
+    telegramLink: string | undefined;
+    tgUserName: string;
+    phoneNumber: string;
+    districtId: string;
+    categoryId: string
+  }) => Promise<void>,
   updateWorkerStatus: (id: string, status: boolean) => Promise<void>,
   deleteWorker: (id: string) => Promise<void>
 }
@@ -48,7 +63,7 @@ const useWorkerStore = create<WorkerState>((set) => ({
       (state) => ({...state, workers: [...state.workers, newWorker]})
     );
   },
-  updateWorker: async (worker: Worker) => {
+  updateWorker: async (worker) => {
     const updatedWorker = await updateWorker(worker);
     return set(
       (state) => ({

@@ -30,7 +30,10 @@ export async function createDistrict(district: {name: string}) {
   return data;
 }
 
-export async function updateDistrict(district: District) {
+export async function updateDistrict(district: {
+  id: string;
+  name: string;
+}) {
   const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')!)
     : null;
@@ -317,7 +320,27 @@ export async function createJob(job:{
   return data;
 }
 
-export async function updateJob(job: Job) {
+export async function updateJob(job: {
+  id: string;
+  title: string;
+  salary: number;
+  gender: number;
+  workingTime: string;
+  workingSchedule: string;
+  deadline: Date;
+  instagramLink: string | undefined;
+  telegramLink: string | undefined
+  tgUserName: string;
+  phoneNumber: string;
+  benefit: string;
+  requirement: string;
+  minAge: number;
+  maxAge: number;
+  longitude: number;
+  latitude: number;
+  categoryId: string;
+  districtId: string;
+}) {
   const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')!)
     : null;
@@ -384,18 +407,18 @@ export async function getWorkerById(id: string) {
 }
 
 export async function createWorker(worker: {
-  instagramLink: string | undefined;
-  gender: number;
-  telegramLink: string | undefined;
-  workingTime: string;
+  deadline: Date;
+  birthDate: Date;
   title: string;
   salary: number;
-  tgUserName: string;
-  birthDate: Date;
+  gender: number;
+  workingTime: string;
   workingSchedule: string;
+  instagramLink: string | undefined;
+  telegramLink: string | undefined;
+  tgUserName: string;
   phoneNumber: string;
   districtId: string;
-  deadline: Date;
   categoryId: string
 }) {
   const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
@@ -410,7 +433,22 @@ export async function createWorker(worker: {
   return data;
 }
 
-export async function updateWorker(worker: Worker) {
+export async function updateWorker(worker: {
+  id: string;
+  deadline: Date;
+  birthDate: Date;
+  title: string;
+  salary: number;
+  gender: number;
+  workingTime: string;
+  workingSchedule: string;
+  instagramLink: string | undefined;
+  telegramLink: string | undefined;
+  tgUserName: string;
+  phoneNumber: string;
+  districtId: string;
+  categoryId: string
+}) {
   const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')!)
     : null;
