@@ -8,9 +8,6 @@ const BASE_URL = "http://45.130.148.122:27";
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    "ngrok-skip-browser-warning": "any",
-  },
 });
 
 export default axiosInstance;
