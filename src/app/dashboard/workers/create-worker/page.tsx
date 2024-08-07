@@ -135,60 +135,6 @@ const CreateWorker = () => {
               />
             </div>
             <div className="grid grid-cols-2 gap-x-12">
-              {/* Category Combobox */}
-              {/*<div>*/}
-              {/*  <Popover open={openc} onOpenChange={setOpenc}>*/}
-              {/*    <PopoverTrigger asChild>*/}
-              {/*      <Button*/}
-              {/*        variant="outline"*/}
-              {/*        role="combobox"*/}
-              {/*        aria-expanded={openc}*/}
-              {/*        className="w-full justify-between bg-white hover:bg-white text-darkindigo hover:text-darkindigo p-2 rounded-lg"*/}
-              {/*      >*/}
-              {/*<span className="truncate">*/}
-              {/*  {valuec*/}
-              {/*    ? allCategory.find(*/}
-              {/*      (category) =>*/}
-              {/*        category.title.toLocaleLowerCase() === valuec*/}
-              {/*    )?.title*/}
-              {/*    : "Kategoriya tanlang..."}*/}
-              {/*</span>*/}
-              {/*        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>*/}
-              {/*      </Button>*/}
-              {/*    </PopoverTrigger>*/}
-              {/*    <PopoverContent className="w-full p-0"*/}
-              {/*    >*/}
-              {/*      <Command>*/}
-              {/*        <CommandInput placeholder="Search framework..."/>*/}
-              {/*        <CommandEmpty>No framework found.</CommandEmpty>*/}
-              {/*        <CommandGroup>*/}
-              {/*          {allCategory.map((category) => (*/}
-              {/*            <CommandItem*/}
-              {/*              key={category.id}*/}
-              {/*              value={category.title}*/}
-              {/*              onSelect={(currentValue) => {*/}
-              {/*                setValuec(*/}
-              {/*                  currentValue === valuec ? "" : currentValue*/}
-              {/*                );*/}
-              {/*                setOpenc(false);*/}
-              {/*              }}*/}
-              {/*            >*/}
-              {/*              <Check*/}
-              {/*                className={cn(*/}
-              {/*                  "mr-2 h-4 w-4",*/}
-              {/*                  valuec === category.title.toLocaleLowerCase()*/}
-              {/*                    ? "opacity-100"*/}
-              {/*                    : "opacity-0"*/}
-              {/*                )}*/}
-              {/*              />*/}
-              {/*              {category.title}*/}
-              {/*            </CommandItem>*/}
-              {/*          ))}*/}
-              {/*        </CommandGroup>*/}
-              {/*      </Command>*/}
-              {/*    </PopoverContent>*/}
-              {/*  </Popover>*/}
-              {/*</div>*/}
               <FormField
                 control={form.control}
                 name="categoryId"
@@ -240,7 +186,7 @@ const CreateWorker = () => {
                       >
                         <FormItem className="flex items-center space-x-2 border rounded-lg border-gray-300 px-3 py-2.5">
                           <FormControl>
-                            <RadioGroupItem value="1"/>
+                            <RadioGroupItem value="0"/>
                           </FormControl>
                           <FormLabel className="font-normal">
                             Erkak
@@ -248,7 +194,7 @@ const CreateWorker = () => {
                         </FormItem>
                         <FormItem className="flex items-center space-x-2 border rounded-lg border-gray-300 px-2 py-2">
                           <FormControl>
-                            <RadioGroupItem value="0"/>
+                            <RadioGroupItem value="1"/>
                           </FormControl>
                           <FormLabel className="font-normal">
                             Ayol

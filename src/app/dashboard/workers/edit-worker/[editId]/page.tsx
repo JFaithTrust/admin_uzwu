@@ -199,7 +199,7 @@ const EditWorkerPage = ({params}: { params: { editId: string } }) => {
                       >
                         <FormItem className="flex items-center space-x-2 border rounded-lg border-gray-300 px-3 py-2.5">
                           <FormControl>
-                            <RadioGroupItem value="1"/>
+                            <RadioGroupItem value="0"/>
                           </FormControl>
                           <FormLabel className="font-normal">
                             Erkak
@@ -207,7 +207,7 @@ const EditWorkerPage = ({params}: { params: { editId: string } }) => {
                         </FormItem>
                         <FormItem className="flex items-center space-x-2 border rounded-lg border-gray-300 px-2 py-2">
                           <FormControl>
-                            <RadioGroupItem value="0"/>
+                            <RadioGroupItem value="1"/>
                           </FormControl>
                           <FormLabel className="font-normal">
                             Ayol
