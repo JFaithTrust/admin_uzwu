@@ -1,4 +1,4 @@
-class BaseObject{
+class BaseObject {
   id: string;
   createDate: Date;
   title: string;
@@ -44,14 +44,14 @@ export interface Region {
   name: string;
 }
 
-export interface FAQ{
+export interface FAQ {
   id: string;
   question: string;
   answer: string;
   createDate: Date;
 }
 
-export interface Feedback{
+export interface Feedback {
   id: string;
   message: string;
   fullName: string;
@@ -62,4 +62,9 @@ export interface JobCategory {
   id: string;
   title: string;
   description: string;
+}
+
+export interface PaginationType {
+  pageIndex: number,
+  pageSize: number
 }
