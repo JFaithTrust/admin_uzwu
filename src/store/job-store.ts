@@ -5,7 +5,8 @@ import {
   createJob,
   deactivateJobStatus,
   deleteJob,
-  getJobById, getJobCount,
+  getJobById,
+  getJobCount,
   getJobsPagination,
   updateJob
 } from "@/store/api";

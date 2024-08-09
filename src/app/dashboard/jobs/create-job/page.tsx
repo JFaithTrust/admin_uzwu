@@ -2,28 +2,28 @@
 
 import useJobCategoryStore from "@/store/job-category-store";
 import useRegionStore from "@/store/region-store";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import useDistrictStore from "@/store/district-store";
 import useJobStore from "@/store/job-store";
-import {useRouter} from "next/navigation";
-import {useForm} from "react-hook-form";
-import {z} from "zod";
-import {CreateJobSchema, CreateWorkerSchema} from "@/lib/validation";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {toast} from "sonner";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
-import {ArrowLeft, CalendarIcon} from "lucide-react";
-import {Input} from "@/components/ui/input";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {Label} from "@/components/ui/label";
-import {PhoneInput} from "@/components/ui/phone-input";
-import {Button} from "@/components/ui/button";
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
-import {cn} from "@/lib/utils";
-import {format} from "date-fns";
-import {Calendar} from "@/components/ui/calendar";
-import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
-import {Textarea} from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { CreateJobSchema } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { ArrowLeft, CalendarIcon } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { PhoneInput } from "@/components/ui/phone-input";
+import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Textarea } from "@/components/ui/textarea";
 
 const CreateJob = () => {
   const {jobCategories, getJobCategories} = useJobCategoryStore()

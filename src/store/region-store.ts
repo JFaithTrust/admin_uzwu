@@ -1,6 +1,6 @@
-import {Region} from "@/types";
-import {create} from "zustand";
-import { getRegions, getRegionById, createRegion, updateRegion, deleteRegion } from "@/store/api";
+import { Region } from "@/types";
+import { create } from "zustand";
+import { createRegion, deleteRegion, getRegionById, getRegions, updateRegion } from "@/store/api";
 
 interface RegionState{
   regions: Region[];

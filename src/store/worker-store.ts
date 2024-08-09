@@ -1,13 +1,14 @@
 import { Worker } from "@/types"
 import { create } from "zustand";
 import {
-  getWorkerById,
-  createWorker,
-  updateWorker,
   activateWorkerStatus,
+  createWorker,
   deactivateWorkerStatus,
   deleteWorker,
-  getJobCount, getWorkersPagination
+  getJobCount,
+  getWorkerById,
+  getWorkersPagination,
+  updateWorker
 } from "@/store/api"
 
 interface WorkerState{

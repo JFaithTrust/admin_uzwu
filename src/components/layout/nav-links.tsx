@@ -1,22 +1,14 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AiFillDashboard } from "react-icons/ai";
-import { MdWork } from "react-icons/md";
+import { MdQuestionAnswer, MdWork } from "react-icons/md";
 import { GrUserWorker } from "react-icons/gr";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { SiOpenstreetmap } from "react-icons/si";
 import { VscFeedback } from "react-icons/vsc";
-import { MdQuestionAnswer } from "react-icons/md";
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command";
+import { Command, CommandGroup, CommandItem, CommandList, } from "@/components/ui/command";
 import { clsx } from "clsx";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { TbBasketSearch } from "react-icons/tb";
 

@@ -1,28 +1,8 @@
 'use client'
 
-import React, {useEffect, useState} from "react";
-import {
-  ColumnFiltersState, flexRender,
-  getCoreRowModel, getFilteredRowModel,
-  getPaginationRowModel, getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState
-} from "@tanstack/react-table";
-import {Input} from "@/components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import {Button} from "@/components/ui/button";
-import {ChevronDown} from "lucide-react";
-import Link from "next/link";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+import React, { useEffect } from "react";
 import useFaqStore from "@/store/faq-store";
-import {TableSkeleton} from "@/components/skeletons/table-skeleton";
-import {faqColumns} from "@/app/dashboard/faqs/faq-columns";
+import { faqColumns } from "@/app/dashboard/faqs/faq-columns";
 import { DataTable } from "@/components/layout/data-table";
 
 const FAQPage = () => {

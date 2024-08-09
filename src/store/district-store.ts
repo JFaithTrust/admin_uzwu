@@ -1,6 +1,13 @@
-import {District} from "@/types";
-import {create} from "zustand";
-import { getDistricts, getDistrictById, getDistrictsByRegionId, createDistrict, updateDistrict, deleteDistrict } from "@/store/api";
+import { District } from "@/types";
+import { create } from "zustand";
+import {
+  createDistrict,
+  deleteDistrict,
+  getDistrictById,
+  getDistricts,
+  getDistrictsByRegionId,
+  updateDistrict
+} from "@/store/api";
 
 interface DistrictState{
   districts: District[];

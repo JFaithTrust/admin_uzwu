@@ -1,6 +1,12 @@
-import { getJobCategories, getJobCategoryById, createJobCategory, updateJobCategory, deleteJobCategory } from "@/store/api";
-import {JobCategory} from "@/types";
-import {create} from "zustand";
+import {
+  createJobCategory,
+  deleteJobCategory,
+  getJobCategories,
+  getJobCategoryById,
+  updateJobCategory
+} from "@/store/api";
+import { JobCategory } from "@/types";
+import { create } from "zustand";
 
 interface JobCategoryState{
   jobCategories: JobCategory[];

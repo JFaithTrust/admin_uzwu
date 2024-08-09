@@ -1,15 +1,15 @@
-import {ColumnDef} from "@tanstack/react-table";
-import {Job} from "@/types";
-import {Button} from "@/components/ui/button";
-import {ArrowUpDown, MoreHorizontal} from "lucide-react";
+import { ColumnDef } from "@tanstack/react-table";
+import { Job } from "@/types";
+import { Button } from "@/components/ui/button";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import * as React from "react";
-import {formatNumber} from "@/lib/utils";
-import {Badge} from "@/components/ui/badge";
-import useWorkerStore from "@/store/worker-store";
-import {toast} from "sonner";
+import { formatNumber } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 import {
   DropdownMenu,
-  DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger

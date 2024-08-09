@@ -1,15 +1,16 @@
-import {ColumnDef} from "@tanstack/react-table";
-import {JobCategory} from "@/types";
-import {toast} from "sonner";
+import { ColumnDef } from "@tanstack/react-table";
+import { JobCategory } from "@/types";
+import { toast } from "sonner";
 import {
   DropdownMenu,
-  DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import {Button} from "@/components/ui/button";
-import {MoreHorizontal} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 import useJobCategoryStore from "@/store/job-category-store";

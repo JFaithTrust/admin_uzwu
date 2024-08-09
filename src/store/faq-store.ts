@@ -1,6 +1,6 @@
-import {FAQ} from "@/types";
-import {create} from "zustand";
-import {getFaqs, createFaq, updateFaq, deleteFaq, getFaqById} from "@/store/api";
+import { FAQ } from "@/types";
+import { create } from "zustand";
+import { createFaq, deleteFaq, getFaqById, getFaqs, updateFaq } from "@/store/api";
 
 interface FaqState {
   faqs: FAQ[];

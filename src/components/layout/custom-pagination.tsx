@@ -9,7 +9,6 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "@/components/ui/pagination";
-import { Table } from "@tanstack/table-core";
 
 interface PaginationProps {
   pagination: PaginationType,

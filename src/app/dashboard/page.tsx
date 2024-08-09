@@ -1,10 +1,10 @@
 'use client';
 
-import {Users2} from "lucide-react";
-import {MdWork} from "react-icons/md";
-import {VscFeedback} from "react-icons/vsc";
-import {TbBasketSearch} from "react-icons/tb";
-import {useEffect, useState} from "react";
+import { Users2 } from "lucide-react";
+import { MdWork } from "react-icons/md";
+import { VscFeedback } from "react-icons/vsc";
+import { TbBasketSearch } from "react-icons/tb";
+import { useEffect, useState } from "react";
 
 const CountUp = ({endValue} : {endValue: number}) => {
   const [count, setCount] = useState(0);

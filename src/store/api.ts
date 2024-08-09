@@ -1,5 +1,4 @@
-
-import {District, FAQ, Feedback, Job, JobCategory, Region, Worker} from "@/types";
+import { District, FAQ, Feedback, Job, JobCategory, Region, Worker } from "@/types";
 import $axios from "@/http/axios";
 import $api from "@/http/api";
 
