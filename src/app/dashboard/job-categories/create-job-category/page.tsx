@@ -1,17 +1,17 @@
 'use client'
 
-import {useForm} from "react-hook-form";
-import {z} from "zod";
-import {CreateJobCategorySchema} from "@/lib/validation";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {toast} from "sonner";
-import {Form, FormControl, FormField, FormItem, FormLabel} from "@/components/ui/form";
-import {Input} from "@/components/ui/input";
-import {Button} from "@/components/ui/button";
-import {Textarea} from "@/components/ui/textarea";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { CreateJobCategorySchema } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import useJobCategoryStore from "@/store/job-category-store";
-import {useRouter} from "next/navigation";
-import {ArrowLeft} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import React from "react";
 
 const CreateJobCategoryPage = () => {

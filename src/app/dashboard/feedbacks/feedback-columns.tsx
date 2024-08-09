@@ -1,20 +1,21 @@
 'use client'
 
-import {ColumnDef} from "@tanstack/react-table";
-import {Feedback} from "@/types";
-import {Button} from "@/components/ui/button";
-import {ChevronDown, MoreHorizontal} from "lucide-react";
+import { ColumnDef } from "@tanstack/react-table";
+import { Feedback } from "@/types";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
-  DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import * as React from "react";
 import Link from "next/link";
-import {toast} from "sonner";
-import {format} from "date-fns";
+import { toast } from "sonner";
+import { format } from "date-fns";
 import useFeedbackStore from "@/store/feedback-store";
 
 export const feedbackColumns: ColumnDef<Feedback>[] = [

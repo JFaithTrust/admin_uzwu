@@ -1,32 +1,25 @@
-import axios from "@/store/axios";
-import {District, FAQ, Feedback, Job, JobCategory, Region, Worker} from "@/types";
+import { District, FAQ, Feedback, Job, JobCategory, Region, Worker } from "@/types";
+import $axios from "@/http/axios";
+import $api from "@/http/api";
 
 // District
 export async function getDistricts() {
-  const {data} = await axios.get<District[]>("/api/District/GetAll");
+  const {data} = await $axios.get<District[]>("/api/District/GetAll");
   return data;
 }
 
 export async function getDistrictById(id: string) {
-  const {data} = await axios.get<District>(`/api/District/GetById/${id}`);
+  const {data} = await $axios.get<District>(`/api/District/GetById/${id}`);
   return data;
 }
 
 export async function getDistrictsByRegionId(regionId: string) {
-  const {data} = await axios.get<District[]>(`/api/District/GetByRegionId/${regionId}`);
+  const {data} = await $axios.get<District[]>(`/api/District/GetByRegionId/${regionId}`);
   return data;
 }
 
 export async function createDistrict(district: {name: string}) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.post<District>("/api/District/Create", district, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.post<District>("/api/District/Create", district);
   return data;
 }
 
@@ -34,258 +27,123 @@ export async function updateDistrict(district: {
   id: string;
   name: string;
 }) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
 
-  const {data} = await axios.put<District>("/api/District/Update", district, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.put<District>("/api/District/Update", district);
   return data;
 }
 
 export async function deleteDistrict(id: string) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  await axios.delete(`/api/District/Delete/${id}`, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  await $api.delete(`/api/District/Delete/${id}`);
 }
 
 // Region
 export async function getRegions() {
-  const {data} = await axios.get<Region[]>("/api/Region/GetAll");
+  const {data} = await $axios.get<Region[]>("/api/Region/GetAll");
   return data;
 }
 
 export async function getRegionById(id: string) {
-  const {data} = await axios.get<Region>(`/api/Region/GetById/${id}`);
+  const {data} = await $axios.get<Region>(`/api/Region/GetById/${id}`);
   return data;
 }
 
 export async function createRegion(region: {name: string}) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.post<Region>("/api/Region/Create", region, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.post<Region>("/api/Region/Create", region);
   return data;
 }
 
 export async function updateRegion(region: Region) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.put<Region>("/api/Region/Update", region, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.put<Region>("/api/Region/Update", region);
   return data;
 }
 
 export async function deleteRegion(id: string) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  await axios.delete(`/api/Region/Delete/${id}`, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  await $api.delete(`/api/Region/Delete/${id}`);
 }
 
 // FAQ
 export async function getFaqs() {
-  const {data} = await axios.get<FAQ[]>("/api/FAQ/GetAll");
+  const {data} = await $axios.get<FAQ[]>("/api/FAQ/GetAll");
   return data;
 }
 
 export async function getFaqById(id: string) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.get<FAQ>(`/api/FAQ/GetById/${id}`, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.get<FAQ>(`/api/FAQ/GetById/${id}`);
   return data;
 }
 
 export async function createFaq(faq: {question: string; answer: string}) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.post<FAQ>("/api/FAQ/Create", faq, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.post<FAQ>("/api/FAQ/Create", faq);
   return data;
 }
 
 export async function updateFaq(faq: FAQ) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.put<FAQ>("/api/FAQ/Update", faq, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.put<FAQ>("/api/FAQ/Update", faq);
   return data;
 }
 
 export async function deleteFaq(id: string) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  await axios.delete(`/api/FAQ/Delete/${id}`, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  await $api.delete(`/api/FAQ/Delete/${id}`);
 }
 
 // Feedback
 export async function getFeedbacks() {
-  const {data} = await axios.get<Feedback[]>("/api/Feedback/GetAll");
+  const {data} = await $axios.get<Feedback[]>("/api/Feedback/GetAll");
   return data;
 }
 
 export async function getFeedbackById(id: string) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.get<Feedback>(`/api/Feedback/GetById/${id}`, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.get<Feedback>(`/api/Feedback/GetById/${id}`);
   return data;
 }
 
 export async function createFeedback(feedback: {message: string; fullName: string; dueDate: Date}) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.post<Feedback>("/api/Feedback/Create", feedback, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.post<Feedback>("/api/Feedback/Create", feedback);
   return data;
 }
 
 export async function updateFeedback(feedback: Feedback) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.put<Feedback>("/api/Feedback/Update", feedback, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.put<Feedback>("/api/Feedback/Update", feedback);
   return data;
 }
 
 export async function deleteFeedback(id: string) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  await axios.delete(`/api/Feedback/Delete/${id}`, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  await $api.delete(`/api/Feedback/Delete/${id}`);
 }
 
 // Job Category
 export async function getJobCategories() {
-  const {data} = await axios.get<JobCategory[]>("/api/JobCategory/GetAll");
+  const {data} = await $axios.get<JobCategory[]>("/api/JobCategory/GetAll");
   return data;
 }
 
 export async function getJobCategoryById(id: string) {
-  const {data} = await axios.get<JobCategory>(`/api/JobCategory/GetById/${id}`);
+  const {data} = await $axios.get<JobCategory>(`/api/JobCategory/GetById/${id}`);
   return data;
 }
 
 export async function createJobCategory(jobCategory: {title: string, description: string}) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.post<JobCategory>("/api/JobCategory/Create", jobCategory, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.post<JobCategory>("/api/JobCategory/Create", jobCategory);
   return data;
 }
 
 export async function updateJobCategory(jobCategory: JobCategory) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.put<JobCategory>("/api/JobCategory/Update", jobCategory, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.put<JobCategory>("/api/JobCategory/Update", jobCategory);
   return data;
 }
 
 export async function deleteJobCategory(id: string) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  await axios.delete(`/api/JobCategory/Delete/${id}`, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  await $api.delete(`/api/JobCategory/Delete/${id}`);
 }
 
 // Job
-export async function getJobs() {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.get<Job[]>("/api/Job/GetAllForAdmin", {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+export async function getJobsPagination(pageNumber: number, pageSize: number) {
+  const {data} = await $api.get<Job[]>(`/api/Job/GetAllForAdmin?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   return data;
 }
 
 export async function getJobById(id: string) {
-  const {data} = await axios.get<Job>(`/api/Job/GetById/${id}`);
+  const {data} = await $axios.get<Job>(`/api/Job/GetById/${id}`);
   return data;
 }
 
@@ -309,14 +167,7 @@ export async function createJob(job:{
   categoryId: string;
   districtId: string;
 }){
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-  const {data} = await axios.post<Job>("/api/Job/Create", job, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.post<Job>("/api/Job/Create", job);
   return data;
 }
 
@@ -341,68 +192,37 @@ export async function updateJob(job: {
   categoryId: string;
   districtId: string;
 }) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-  const {data} = await axios.put<Job>("/api/Job/Update", job, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.put<Job>("/api/Job/Update", job);
   return data;
 }
 
 export async function activateJobStatus(id: string){
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-  const { data } = await axios.put<Job>(`api/Job/Activate/${id}`,{}, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  })
+  const { data } = await $api.put<Job>(`api/Job/Activate/${id}`,{})
   return data;
 }
 
 export async function deactivateJobStatus(id: string){
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-  const { data } = await axios.put<Job>(`api/Job/Deactivate/${id}`,{}, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  })
+  const { data } = await $api.put<Job>(`api/Job/Deactivate/${id}`,{})
   return data;
 }
 
 export async function deleteJob(id: string) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-  await axios.delete(`/api/Job/Delete/${id}`, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  await $api.delete(`/api/Job/Delete/${id}`);
+}
+
+export async function getJobCount() {
+  const { data } = await $api.get<number>("/api/Job/GetCountForFilter");
+  return data;
 }
 
 // Worker
-export async function getWorkers() {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const { data} = await axios.get<Worker[]>("/api/Worker/GetAllForAdmin", {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+export async function getWorkersPagination(pageNumber: number, pageSize: number) {
+  const { data} = await $api.get<Worker[]>(`/api/Worker/GetAllForAdmin?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   return data;
 }
 
 export async function getWorkerById(id: string) {
-  const {data} = await axios.get<Worker>(`/api/Worker/GetById/${id}`);
+  const {data} = await $axios.get<Worker>(`/api/Worker/GetById/${id}`);
   return data;
 }
 
@@ -421,15 +241,7 @@ export async function createWorker(worker: {
   districtId: string;
   categoryId: string
 }) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.post<Worker>("/api/Worker/Create", worker, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.post<Worker>("/api/Worker/Create", worker);
   return data;
 }
 
@@ -449,52 +261,25 @@ export async function updateWorker(worker: {
   districtId: string;
   categoryId: string
 }) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const {data} = await axios.put<Worker>("/api/Worker/Update", worker, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+  const {data} = await $api.put<Worker>("/api/Worker/Update", worker);
   return data;
 }
 
 export async function activateWorkerStatus(id: string){
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const { data } = await axios.put<Worker>(`api/Worker/Activate/${id}`,{}, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  })
+  const { data } = await $api.put<Worker>(`api/Worker/Activate/${id}`,{})
   return data;
 }
 
 export async function deactivateWorkerStatus(id: string){
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
-
-  const { data } = await axios.put<Worker>(`api/Worker/Deactivate/${id}`,{}, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  })
+  const { data } = await $api.put<Worker>(`api/Worker/Deactivate/${id}`,{})
   return data;
 }
 
 export async function deleteWorker(id: string) {
-  const initialUser = typeof window !== 'undefined' && localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')!)
-    : null;
+  await $api.delete(`/api/Worker/Delete/${id}`);
+}
 
-  await axios.delete(`/api/Worker/Delete/${id}`, {
-    headers: {
-      Authorization: `Bearer ${initialUser.token}`,
-    },
-  });
+export async function getWorkerCount() {
+  const { data } = await $axios.get<number>("/api/Job/GetCountForFilter");
+  return data;
 }

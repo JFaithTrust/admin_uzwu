@@ -1,6 +1,6 @@
-import { Feedback} from "@/types";
-import {create} from "zustand";
-import { getFeedbacks, createFeedback, updateFeedback, deleteFeedback, getFeedbackById } from "@/store/api";
+import { Feedback } from "@/types";
+import { create } from "zustand";
+import { createFeedback, deleteFeedback, getFeedbackById, getFeedbacks, updateFeedback } from "@/store/api";
 
 interface FeedbackState{
   feedbacks: Feedback[];

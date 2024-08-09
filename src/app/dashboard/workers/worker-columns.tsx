@@ -14,7 +14,7 @@ import { Worker } from "@/types";
 import { formatNumber } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import {toast} from "sonner";
+import { toast } from "sonner";
 import useWorkerStore from "@/store/worker-store";
 
 

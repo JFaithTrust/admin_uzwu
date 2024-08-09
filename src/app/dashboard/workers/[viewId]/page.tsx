@@ -1,14 +1,14 @@
 "use client";
 
-import {Badge} from "@/components/ui/badge";
-import React, {useEffect} from "react";
-import {format} from "date-fns";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import {Button} from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import React, { useEffect } from "react";
+import { format } from "date-fns";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import {formatNumber} from "@/lib/utils";
+import { formatNumber } from "@/lib/utils";
 import useWorkerStore from "@/store/worker-store";
-import {DetailSkeleton} from "@/components/skeletons/detail-skeleton";
+import { DetailSkeleton } from "@/components/skeletons/detail-skeleton";
 
 interface SocialButtonProps {
   link: string

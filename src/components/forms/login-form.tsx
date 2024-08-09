@@ -1,15 +1,15 @@
 "use client"
 
-import {BottomGradient} from "@/components/ui/bottom-gradient";
-import {useRouter} from "next/navigation";
+import { BottomGradient } from "@/components/ui/bottom-gradient";
+import { useRouter } from "next/navigation";
 import useUserStore from "@/store/user-store";
-import {useForm} from "react-hook-form";
-import {LoginFormSchema} from "@/lib/validation";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {z} from "zod";
+import { useForm } from "react-hook-form";
+import { LoginFormSchema } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import axios from "@/store/axios";
-import {toast} from "sonner";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import { toast } from "sonner";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { BorderGradientInput } from "../ui/border-gradient-input";
 
 export default function LoginForm() {

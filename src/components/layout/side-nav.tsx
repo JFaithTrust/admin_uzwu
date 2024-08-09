@@ -1,8 +1,8 @@
-import {PowerIcon} from "lucide-react";
+import { PowerIcon } from "lucide-react";
 import NavLinks from "@/components/layout/nav-links";
-import {Button} from "@/components/ui/button";
-import {getInitials} from "@/lib/utils";
-import {useEffect, useState} from "react";
+import { Button } from "@/components/ui/button";
+import { getInitials } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import useUserStore from "@/store/user-store";
 import ProfileSkeleton from "@/components/skeletons/profile-skeleton";
 

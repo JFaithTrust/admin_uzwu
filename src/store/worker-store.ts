@@ -1,11 +1,21 @@
 import { Worker } from "@/types"
 import { create } from "zustand";
-import { getWorkers, getWorkerById, createWorker, updateWorker, activateWorkerStatus, deactivateWorkerStatus, deleteWorker } from "@/store/api"
+import {
+  activateWorkerStatus,
+  createWorker,
+  deactivateWorkerStatus,
+  deleteWorker,
+  getJobCount,
+  getWorkerById,
+  getWorkersPagination,
+  updateWorker
+} from "@/store/api"
 
 interface WorkerState{
   workers: Worker[],
   worker: Worker | null,
-  getWorkers: () => Promise<void>,
+  count: number,
+  getWorkersPagination: (pageNumber: number, pageSize: number) => Promise<void>,
   getWorkerById: (id: string) => Promise<void>,
   createWorker: (worker: {
     deadline: Date;
@@ -40,13 +50,15 @@ interface WorkerState{
   }) => Promise<void>,
   updateWorkerStatus: (id: string, status: boolean) => Promise<void>,
   deleteWorker: (id: string) => Promise<void>
+  updateWorkerCount: () => Promise<void>,
 }
 
 const useWorkerStore = create<WorkerState>((set) => ({
   workers: [],
   worker: null,
-  getWorkers: async () => {
-    const workers = await getWorkers();
+  count: 0,
+  getWorkersPagination: async (pageNumber, pageSize) => {
+    const workers = await getWorkersPagination(pageNumber, pageSize);
     return set(
       (state) => ({...state, workers})
     );
@@ -98,6 +110,12 @@ const useWorkerStore = create<WorkerState>((set) => ({
         ...state,
         workers: state.workers.filter((w) => w.id !== id)
       })
+    );
+  },
+  updateWorkerCount: async () => {
+    const count = await getJobCount();
+    return set(
+      (state) => ({...state, count })
     );
   }
 }));

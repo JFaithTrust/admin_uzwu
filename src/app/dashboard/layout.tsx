@@ -1,10 +1,9 @@
 'use client'
 
 import SideNav from "@/components/layout/side-nav";
-import React from "react";
-import {redirect, useRouter} from "next/navigation";
-import {useLayoutEffect} from "react";
-import {Toaster} from "sonner";
+import React, { useLayoutEffect } from "react";
+import { redirect, useRouter } from "next/navigation";
+import { Toaster } from "sonner";
 import useUserStore from "@/store/user-store";
 
 export default function Layout({children}: { children: React.ReactNode }) {
@@ -13,7 +12,7 @@ export default function Layout({children}: { children: React.ReactNode }) {
 
   useLayoutEffect(() => {
     if (!isLoggedIn) {
-      redirect('/login')
+      redirect('/')
     }
   }, [isLoggedIn, router]);
 

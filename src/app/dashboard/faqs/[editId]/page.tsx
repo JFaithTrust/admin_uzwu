@@ -1,17 +1,16 @@
 'use client'
 
-import {useForm} from "react-hook-form";
-import {CreateFaqSchema} from "@/lib/validation";
-import {z} from "zod";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormLabel} from "@/components/ui/form";
-import React, {useEffect} from "react";
-import {Textarea} from "@/components/ui/textarea";
-import {Button} from "@/components/ui/button";
-import {toast} from "sonner";
+import { useForm } from "react-hook-form";
+import { CreateFaqSchema } from "@/lib/validation";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import React, { useEffect } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import useFaqStore from "@/store/faq-store";
-import {useRouter} from "next/navigation";
-import {ArrowLeft} from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const EditFaqPage = ({params}: { params: { editId: string } }) => {
   const {updateFaq, faq, getFaqById} = useFaqStore();

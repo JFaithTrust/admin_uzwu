@@ -1,17 +1,16 @@
 'use client'
 
-import React, {useEffect} from "react";
-import {useForm} from "react-hook-form";
-import {z} from "zod";
-import {CreateRegionSchema} from "@/lib/validation";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {toast} from "sonner";
-import {Form, FormControl, FormField, FormItem, FormLabel} from "@/components/ui/form";
-import {Input} from "@/components/ui/input";
-import {Button} from "@/components/ui/button";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { CreateRegionSchema } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import useRegionStore from "@/store/region-store";
-import {ArrowLeft} from "lucide-react";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const EditRegionPage = ({params}: { params: { editId: string } }) => {
   const {updateRegion, region, getRegionById} = useRegionStore();

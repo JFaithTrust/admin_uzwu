@@ -1,11 +1,21 @@
 import { Job } from "@/types";
 import { create } from "zustand";
-import { getJobs, getJobById, createJob, updateJob, activateJobStatus, deactivateJobStatus, deleteJob } from "@/store/api";
+import {
+  activateJobStatus,
+  createJob,
+  deactivateJobStatus,
+  deleteJob,
+  getJobById,
+  getJobCount,
+  getJobsPagination,
+  updateJob
+} from "@/store/api";
 
-interface JobState{
+interface JobState {
   jobs: Job[],
   job: Job | null,
-  getJobs: () => Promise<void>,
+  count: number,
+  getJobsPagination: (pageNumber: number, pageSize: number) => Promise<void>,
   getJobById: (id: string) => Promise<void>,
   createJob: (job: {
     title: string;
@@ -50,13 +60,15 @@ interface JobState{
   }) => Promise<void>,
   updateJobStatus: (id: string, status: boolean) => Promise<void>,
   deleteJob: (id: string) => Promise<void>
+  updateJobCount: () => Promise<void>
 }
 
 const useJobStore = create<JobState>((set) => ({
   jobs: [],
   job: null,
-  getJobs: async () => {
-    const jobs = await getJobs();
+  count: 0,
+  getJobsPagination: async (pageNumber: number, pageSize: number) => {
+    const jobs = await getJobsPagination(pageNumber, pageSize);
     return set(
       (state) => ({...state, jobs})
     );
@@ -108,6 +120,12 @@ const useJobStore = create<JobState>((set) => ({
         ...state,
         jobs: state.jobs.filter((j) => j.id !== id)
       })
+    );
+  },
+  updateJobCount: async () => {
+    const count = await getJobCount();
+    return set(
+      (state) => ({...state, count })
     );
   }
 }));
